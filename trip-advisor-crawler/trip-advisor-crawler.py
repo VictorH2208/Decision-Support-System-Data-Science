@@ -50,7 +50,7 @@ def getactivityids(domain, activitytype, locationid, timeout, maxretries, pause)
     oastep = 30
     activityids = set()
     citypage = 0
-    activityre = re.compile(r'/'+activitytype+'_Review-g([0-9]+)-d([0-9]+)-Reviews')
+    activityre = re.compile(r'/'+activitytype+'_Review-g('+locationid+')-d([0-9]+)-Reviews')
 
     while True:
         if citypage == 0:
@@ -170,7 +170,7 @@ def main():
     parser.add_argument(
             '-m', '--maxreviews', help='Maximum number of reviews per item to download. Default:unlimited',
             required=False,
-            type=int, default=-1)
+            type=int, default=100)
     parser.add_argument(
             '-o', '--out', help='Output base path', required=True)
     parser.add_argument('ids', metavar='ID', nargs='+',

@@ -47,16 +47,20 @@ def main():
                 
                 # new additions
                 date_stamp = date_block.findall(htmlpage)[0]
-                address_vals = re.split(':|,',address_block.findall(htmlpage)[0].replace('"',''))
-                address_dict = dict(zip(address_vals[::2], address_vals[1::2])) 
+                # address_vals = re.split(':|,',address_block.findall(htmlpage)[0].replace('"',''))
+                # address_dict = dict(zip(address_vals[::2], address_vals[1::2])) 
+                address_vals = re.split('streetAddress:|addressLocality:|addressRegion:|postalCode:', address_block.findall(htmlpage)[0].replace('"',''))
+                address_vals = [x.split(',') for x in address_vals[1:]]
+                if len(address_vals) != 4:
+                    continue
             except IndexError:
                 continue
             
             try:
-                address = address_dict['streetAddress']
-                locality = address_dict['addressLocality'],
-                region = address_dict['addressRegion']
-                postal_code = address_dict['postalCode']
+                address = address_vals[0]
+                locality = address_vals[1],
+                region = address_vals[2]
+                postal_code = address_vals[3]
             except KeyError:
                 continue
 
